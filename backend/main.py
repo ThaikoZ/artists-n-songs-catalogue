@@ -8,7 +8,6 @@ from artists.routes import router as artists_router
 
 models.Base.metadata.create_all(bind=engine)
 
-
 # Routers
 app = FastAPI()
 app.include_router(songs_router)

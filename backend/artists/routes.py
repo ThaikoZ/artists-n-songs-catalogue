@@ -13,6 +13,7 @@ router = APIRouter(
 
 @router.get('/')
 def get_artists(db: Session = Depends(get_db)):
+   # TODO: Get Search Query params: limit, skip, order by, etc
   return crud.get_artists(db)
 
 @router.get('/{artist_id}')
