@@ -4,6 +4,7 @@ from core import models
 from core.database import engine
 from songs.routes import router as songs_router
 from artists.routes import router as artists_router
+from credits.routes import router as credits_router
 from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
@@ -12,6 +13,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 app.include_router(songs_router)
 app.include_router(artists_router)
+app.include_router(credits_router)
   
 # CORS Middleware
 origins = [

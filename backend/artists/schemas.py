@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class CreateArtist(BaseModel):
+class ArtistBase(BaseModel):
   name: str
-  bio: str = Optional[None]
+  bio: str
   
+class ArtistInDB(ArtistBase):
+  artist_id: int

@@ -1,15 +1,15 @@
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.orm import Session
 from core.database import get_db
-from artists import schemas,crud
+from credits import schemas,crud
 
 
 router = APIRouter(
-  prefix='/artists',
-  tags=['Artists'],
+  prefix='/credits',
+  tags=['Credits'],
   responses={status.HTTP_404_NOT_FOUND: {"description": "Not found"}}
 )
 
 @router.get('/')
-def get_artists(db: Session = Depends(get_db)):
-  return crud.get_artists(db)
+def get_credits(db: Session = Depends(get_db)):
+  return crud.get_credits(db)
