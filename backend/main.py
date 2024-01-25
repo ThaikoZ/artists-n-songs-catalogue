@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 models.Base.metadata.create_all(bind=engine)
 
 # Routers
-app = FastAPI()
+app = FastAPI(root_path="/api", title="Music API", description="API for music database", version="1.0.0")
 app.include_router(songs_router)
 app.include_router(artists_router)
 app.include_router(credits_router)

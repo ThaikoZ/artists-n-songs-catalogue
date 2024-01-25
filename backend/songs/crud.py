@@ -5,9 +5,9 @@ from songs import schemas as s
 
 def get_songs(db: Session, skip: int = 0, limit: int = 100) -> list[s.SongInDB]:
   results = db.query(m.Song, m.Artist) \
-      .join(m.Credit, m.Credit.song_id == m.Song.song_id) \
-      .join(m.Artist, m.Credit.artist_id == m.Artist.artist_id) \
-      .all()
+      .outerjoin(m.Credit, m.Credit.song_id == m.Song.song_id) \
+      .outerjoin(m.Artist, m.Credit.artist_id == m.Artist.artist_id) \
+      .limit(limit).offset(skip).all()
       
   songs = {}
   for song, artist in results:
@@ -17,32 +17,29 @@ def get_songs(db: Session, skip: int = 0, limit: int = 100) -> list[s.SongInDB]:
     if artist:
       songs[song.song_id].artists.append(artist.name)
       
-  return songs
+  return [songs[song_id] for song_id in songs]
 
 
 def get_song_by_id(db: Session, song_id: int) -> s.SongInDB:
   results = db.query(m.Song, m.Artist) \
-      .join(m.Credit, m.Credit.song_id == m.Song.song_id) \
-      .join(m.Artist, m.Credit.artist_id == m.Artist.artist_id) \
+      .outerjoin(m.Credit, m.Credit.song_id == m.Song.song_id) \
+      .outerjoin(m.Artist, m.Credit.artist_id == m.Artist.artist_id) \
       .filter(m.Song.song_id == song_id) \
       .all()
     
   if not results:
     return 
   
-  song = results[0][0] 
-  artists = [artist.name for _, artist in results if artist]
-  song_in_db = s.SongInDB(
-    song_id=song.song_id,
-    title=song.title,
-    duration_in_seconds=song.duration_in_seconds,
-    album_title=song.album_title,
-    sold_copies=song.sold_copies,
-    artists=artists
-  )
-
-  return song_in_db
-
+  songs = {}
+  for song, artist in results:
+    if song.song_id not in songs:
+      songs[song.song_id] = song
+      songs[song.song_id].artists = []
+    if artist:
+      songs[song.song_id].artists.append(artist.name)
+      
+  return songs[song_id]
+  
 
 def create_song(db: Session, data: s.CreateSong) -> s.SongInDB:
   db_song = m.Song(

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.orm import Session
 from core.database import get_db
-from credits import schemas,crud
+from credits import crud
 
 
 router = APIRouter(
