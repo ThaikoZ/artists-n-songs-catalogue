@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react";
 
 interface FormValues {
   title: string;
-  album_title?: string;
+  album_title: string;
   artists: string;
   duration_in_seconds: number;
   sold_copies: number;
@@ -22,8 +22,12 @@ const schema = zod.object({
     .min(1, { message: "Title must be at least 1 character long" }),
   album_title: zod.string().optional(),
   artists: zod.string().min(1, { message: "Authors field shouldn't be empty" }),
-  duration_in_seconds: zod.string(),
-  sold_copies: zod.string(),
+  duration_in_seconds: zod
+    .string()
+    .min(1, { message: "Duration must be at least 1 second" }),
+  sold_copies: zod
+    .string()
+    .min(0, { message: "Sold copies must be at least 0" }),
 });
 
 const AddSongForm = () => {
@@ -39,11 +43,20 @@ const AddSongForm = () => {
     }
     setLoading(true);
 
-    // TODO: Add song to database. Artists are not adding to database
+    const body = {
+      title: data.title,
+      album_title: data.album_title,
+      artists: data.artists.split(",").map((artist) => artist.trim()),
+      duration_in_seconds: parseInt(data.duration_in_seconds.toString()),
+      sold_copies: parseInt(data.sold_copies.toString()),
+    };
+
+    // Who knows why, but axios doesn't work with react-hook-form
     axiosInstance
-      .post("/songs", data)
+      .post("/songs", body)
       .then((response) => {
         console.log(response);
+        console.log("success");
       })
       .catch((error) => {
         console.log(error.response);
@@ -52,8 +65,7 @@ const AddSongForm = () => {
         setLoading(false);
       });
 
-    console.log(data);
-    console.log("success");
+    console.log(body);
   };
 
   return (
@@ -108,8 +120,8 @@ const AddSongForm = () => {
       </div>
       <div className="flex justify-between items-center mt-3">
         <Label className="text-red-600 w-fit">{error}</Label>
-        <Button type="submit" className="w-full sm:w-36">
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button type="submit" disabled={isLoading} className="w-full sm:w-36">
+          {isLoading && <Loader2 className="mr-2 h-6 w-6 animate-spin" />}
           Add song
         </Button>
       </div>

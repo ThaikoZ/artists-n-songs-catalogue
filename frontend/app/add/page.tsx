@@ -17,7 +17,7 @@ const AddPage = () => {
             className="rounded-lg"
           />
         </div>
-        <div className="flex flex-col gap-4 w-full  justify-center ps-5 py-10 pe-14">
+        <div className="flex flex-col gap-4 w-full  justify-center px-5 py-10 ">
           <Label className="w-full  font-bold text-4xl text-zinc-950 mb-4">
             Add a New Song!
           </Label>

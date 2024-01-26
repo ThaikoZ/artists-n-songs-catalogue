@@ -31,11 +31,8 @@ export default async function HomePage() {
       <div className="w-full ">
         <DataTable columns={columns} data={data} />
       </div>
-      {/* <div className="hidden md:flex flex-col px-3 w-full max-w-64 gap-1.5">
-          <Button className="bg-blue-600 hover:bg-blue-500 w-full">Add</Button>
-          <Button className="bg-green-700 hover:bg-green-600">Edit</Button>
-          <Button variant="destructive">Delete</Button>
-        </div> */}
+      {/* TODO: Pagination */}
+      {/* TODO: Edit, Delete buttons */}
     </ContentCard>
   );
 }
