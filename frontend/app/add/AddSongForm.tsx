@@ -55,9 +55,9 @@ const AddSongForm = () => {
 
     // Who knows why, but axios doesn't work with react-hook-form
     axiosInstance
-      .post("/songs", payload)
-      .then((response) => {
-        router.push("/");
+      .post("/songs/", payload)
+      .then((res) => {
+        router.replace("/");
         console.log("success");
       })
       .catch((error) => {

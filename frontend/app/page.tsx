@@ -4,13 +4,12 @@ import { DataTable } from "./DataTable";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import ContentCard from "./components/ContentCard";
-import axiosInstance from "./services/api-client";
+import axiosInstance, { baseURL } from "./services/api-client";
 
 // Hamburger menu
-
 async function getData(): Promise<Song[]> {
   const data = await axiosInstance
-    .get("/songs")
+    .get("/songs/")
     .then((res) => res.data)
     .catch((err) => console.log(err));
   return data || [];
@@ -18,6 +17,7 @@ async function getData(): Promise<Song[]> {
 
 export default async function HomePage() {
   const data = await getData();
+
   return (
     <ContentCard>
       <div className="flex gap-3 ">
@@ -31,7 +31,6 @@ export default async function HomePage() {
       <div className="w-full ">
         <DataTable columns={columns} data={data} />
       </div>
-      {/* TODO: Pagination */}
       {/* TODO: Edit, Delete buttons */}
     </ContentCard>
   );
