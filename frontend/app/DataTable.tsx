@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -29,13 +30,23 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [currentPage, setCurrentPage] = useState(1);
   const table = useReactTable({
     data,
     columns,
+    initialState: {
+      pagination: {
+        pageSize: 8,
+      },
+    },
+    state: {
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
   });
-  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <div>

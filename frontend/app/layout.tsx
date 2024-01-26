@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col min-h-[100vh] space-y-6 bg-[#f5f4f7] dark:bg-[#0a0b08]`}
+        className={`${inter.className} flex flex-col min-h-[100vh] bg-[#f5f4f7] dark:bg-[#0a0b08] gap-7`}
       >
         <Navbar />
         <Container>{children}</Container>

@@ -20,7 +20,7 @@ export default async function HomePage() {
   const data = await getData();
   return (
     <ContentCard>
-      <div className="flex gap-3">
+      <div className="flex gap-3 ">
         <Link href="/add">
           <Button className="bg-blue-600 hover:bg-blue-500 w-fit min-w-32 ">
             Add song
