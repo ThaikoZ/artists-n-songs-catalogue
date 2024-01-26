@@ -7,6 +7,7 @@ import zod from "zod";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../services/api-client";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   title: string;
@@ -34,6 +35,7 @@ const AddSongForm = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const [error, setError] = React.useState<string>("");
   const [isLoading, setLoading] = React.useState<boolean>(false);
+  const router = useRouter();
 
   const onSubmit = (data: FormValues) => {
     const validation = schema.safeParse(data);
@@ -43,7 +45,7 @@ const AddSongForm = () => {
     }
     setLoading(true);
 
-    const body = {
+    const payload = {
       title: data.title,
       album_title: data.album_title,
       artists: data.artists.split(",").map((artist) => artist.trim()),
@@ -53,9 +55,9 @@ const AddSongForm = () => {
 
     // Who knows why, but axios doesn't work with react-hook-form
     axiosInstance
-      .post("/songs", body)
+      .post("/songs", payload)
       .then((response) => {
-        console.log(response);
+        router.push("/");
         console.log("success");
       })
       .catch((error) => {
@@ -64,8 +66,6 @@ const AddSongForm = () => {
       .finally(() => {
         setLoading(false);
       });
-
-    console.log(body);
   };
 
   return (

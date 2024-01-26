@@ -2,18 +2,18 @@ import { Button } from "@/components/ui/button";
 import { Song, columns } from "./utils/columns";
 import { DataTable } from "./DataTable";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import Link from "next/link";
 import ContentCard from "./components/ContentCard";
+import axiosInstance from "./services/api-client";
 
 // Hamburger menu
 
 async function getData(): Promise<Song[]> {
-  const data = await axios
-    .get("http://localhost:8000/songs")
+  const data = await axiosInstance
+    .get("/songs")
     .then((res) => res.data)
     .catch((err) => console.log(err));
-  return data;
+  return data || [];
 }
 
 export default async function HomePage() {

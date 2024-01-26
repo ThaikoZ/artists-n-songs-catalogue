@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./Navbar";
 import { ThemeProvider } from "@/app/providers/ThemeProvider";
 import Container from "./components/Container";
+import Footer from "./Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#f5f4f7] dark:bg-[#0a0b08]`}>
+      <body
+        className={`${inter.className} flex flex-col min-h-[100vh] space-y-6 bg-[#f5f4f7] dark:bg-[#0a0b08]`}
+      >
         <Navbar />
         <Container>{children}</Container>
+        <Footer />
       </body>
     </html>
   );
